@@ -43,7 +43,7 @@ class BookInfoManager
 	  print "\n"
 	  print "キー："
 	  key = gets.chomp
-	  print "書籍名"
+	  print "書籍名："
 	  book_info.title = gets.chomp
 	  print "著者名："
 	  book_info.author = gets.chomp
