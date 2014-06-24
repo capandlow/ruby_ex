@@ -44,9 +44,9 @@ class BookInfoManager
 	  print "キー："
 	  key = gets.chomp
 	  print "書籍名："
-	  book_info.title = gets.chomp
+	  book_info.title = gets.chomp.force_encoding("utf-8")
 	  print "著者名："
-	  book_info.author = gets.chomp
+	  book_info.author = gets.chomp.force_encoding("utf-8")
 	  print "ページ数："
 	  book_info.page = gets.chomp
 	  print "発刊年："
