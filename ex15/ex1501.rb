@@ -64,6 +64,8 @@ class BookInfoManager
 	  print "\n"
 	  print "キーを入力："
 	  _input = gets.chomp
+
+	  # 部分一致バージョン
 	  @book_infos.each{ |key, value|
 		 if /#{_input}/ =~ "#{key}" then
 			puts "\n-------------------------------"
@@ -72,6 +74,13 @@ class BookInfoManager
 		 else
 		 end
 	  }
+
+	  # 完全一致バージョン
+#	  if @book_infos.include?(_input) then
+#		 puts @book_infos[_input].toFormattedString
+#	  else
+#		 "見つかりませんでした。"
+#	  end
    end
 
    def listAllBookInfos
