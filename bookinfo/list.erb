@@ -1,0 +1,53 @@
+<% # -*- coding: utf-8 -*- %>
+<% require 'rubygems' %>
+<% require 'dbi' %>
+
+<% dbh = DBI.connect('DBI:SQLite3:bookinfo_sqlite.db') %>
+
+<% sth = dbh.execute("select * from bookinfos;") %>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <link href="default.css" rel="stylesheet"/>
+    <title>蔵書管理</title>
+  </head>
+  <body>
+    <h1>蔵書管理</h1>
+    <h2>蔵書データの表示</h2>
+    <p>
+      処理する蔵書データを選択して下さい。｜
+      <a href="entry.erb">蔵書データの登録</a>｜
+      <a href="retrive.erb">蔵書データの検索</a>｜
+      <a href="index.html">メニューに戻る</a>｜
+    </p>
+    <hr/>
+    <table>
+      <tr>
+        <th>削除</th>
+        <th>修正</th>
+        <% sth.column_names.each do |name| %>
+          <th><%= "#{name}" %></th>
+        <% end %>
+      </tr>
+      <% sth.each do |row| %>
+      <tr>
+        <% row.each_with_name do |val, name| %>
+          <% if name == 'id' then %>
+            <td><input name="operation" type="radio" value=<%="#{val}.delete"%>/></td>
+            <td><input name="operation" type="radio" value=<%="#{val}.edit"%>/></td>
+          <% end %>
+          <td><%= "#{val.to_s}" %></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </table>
+    <input type="submit" value="選択した処理を実行"/>
+    <hr/>
+  </body>
+</html>
+
+<% sth.finish %>
+
+<% dbh.disconnect %>
