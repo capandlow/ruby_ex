@@ -26,6 +26,24 @@ server = WEBrick::HTTPServer.new(config)
 
 server.config[:MimeTypes]["erb"] = "text/html"
 
+server.mount_proc("/list") { |req, res|
+   p req.query
+   if /(.*)\.(delete|edit)$/ =~ req.query['operation']
+	  target_id = $1
+	  operation = $2
+	  if operation == 'delete'
+		 templete = ERB.new(File.read('delete.erb'))
+	  elsif operation == 'edit'
+		 templete = ERB.new(Fire.read('edit.erb'))
+	  end
+	  res.body << templete.result(binding)
+   else
+	  templete = ERB.new(Fire.read('noselected.erb'))
+	  res.body << templete.result(binding)
+   end
+
+}
+
 trap(:INT) do
    server.shutdown
 end
