@@ -19,31 +19,33 @@
     <p>
       処理する蔵書データを選択して下さい。｜
       <a href="entry.erb">蔵書データの登録</a>｜
-      <a href="retrive.erb">蔵書データの検索</a>｜
+      <a href="retrieve.erb">蔵書データの検索</a>｜
       <a href="index.html">メニューに戻る</a>｜
     </p>
     <hr/>
-    <table>
-      <tr>
-        <th>削除</th>
-        <th>修正</th>
-        <% sth.column_names.each do |name| %>
-          <th><%= "#{name}" %></th>
-        <% end %>
-      </tr>
-      <% sth.each do |row| %>
-      <tr>
-        <% row.each_with_name do |val, name| %>
-          <% if name == 'id' then %>
-            <td><input name="operation" type="radio" value=<%="#{val}.delete"%>/></td>
-            <td><input name="operation" type="radio" value=<%="#{val}.edit"%>/></td>
+    <form action="list" method="post">
+      <table>
+        <tr>
+          <th>削除</th>
+          <th>修正</th>
+          <% sth.column_names.each do |name| %>
+            <th><%= "#{name}" %></th>
           <% end %>
-          <td><%= "#{val.to_s}" %></td>
+        </tr>
+        <% sth.each do |row| %>
+          <tr>
+            <% row.each_with_name do |val, name| %>
+              <% if name == 'id' then %>
+                <td><input name="operation" type="radio" value=<%="#{val}.delete"%> /></td>
+                <td><input name="operation" type="radio" value=<%="#{val}.edit"%> /></td>
+              <% end %>
+              <td><%= "#{val.to_s}" %></td>
+            <% end %>
+          </tr>
         <% end %>
-      </tr>
-      <% end %>
-    </table>
-    <input type="submit" value="選択した処理を実行"/>
+      </table>
+      <input type="submit" value="選択した処理を実行"/>
+    </form>
     <hr/>
   </body>
 </html>

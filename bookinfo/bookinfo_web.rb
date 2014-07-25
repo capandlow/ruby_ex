@@ -66,6 +66,24 @@ server.mount_proc("/entry") { |req, res|
    end
 }
 
+# 検索処理
+server.mount_proc("/retrieve"){ |req, res|
+   p req.query
+
+   a = ['id', 'title', 'author', 'page', 'publish_date']
+   a.delete_if { |name| req.query[name]  == "" }
+
+   if a.empty?
+	  where_data = ""
+   else
+	  a.map! { |name| "#{name}=\'#{req.query[name]}\'" }
+	  where_data = "where " + a.join(' or ')
+   end
+
+   template = ERB.new(File.read('retrieved.erb'))
+   res.body << template.result(binding)
+}
+
 trap(:INT) do
    server.shutdown
 end
